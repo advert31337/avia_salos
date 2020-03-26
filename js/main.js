@@ -23,7 +23,7 @@ const otherCheapTickets = document.getElementById('other-cheap-tickets');
 
 // Потом функции
 
-const getData = (url, cb) => {
+const getData = (url, cb , reject = console.error) => {
     const request = new XMLHttpRequest();
 
     request.open('GET', url);
@@ -34,8 +34,7 @@ const getData = (url, cb) => {
             cb(request.response);
 
         } else {
-            console.error(reqest.status);
-
+            reject(request.status)
         }
     })
     request.send();
@@ -191,7 +190,12 @@ formSearch.addEventListener('submit', (e) => {
 
     getData(calendar + requestData, (res) => {
       renderCheap(res, formData.when);
+    }, (err) => {
+      alert('Туда нельзя!');
+      console.log('Ошибка бля', err);
+
     });
+
   } else {
     alert('Введите норамльное название города блеать!!!')
   }
